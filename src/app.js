@@ -36,7 +36,7 @@ app.post("/tasks",(req,res) =>{
 app.put("/tasks/:id",(req,res) =>{
   const id = parseInt(req.params.id,10);
   const task = content.find(p => p.id == id);
-  console.log(req.body)
+  //console.log(req.body)
   if (!task) {
     res.status(404).redirect('/')
       //res.status(404).json({mensaje: "No existe ninguna task con id "+ id})
@@ -47,7 +47,8 @@ app.put("/tasks/:id",(req,res) =>{
   }
 })
 
-app.delete("/tasks/:id",(req,res) =>{ console.log(req.params)
+app.delete("/tasks/:id",(req,res) =>{ 
+  //console.log(req.params)
   const id = parseInt(req.params.id,10);
   const task = content.find(p => p.id == id);
 
