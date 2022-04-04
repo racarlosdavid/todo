@@ -24,11 +24,11 @@ app.set('views', __dirname + '/views');
 // Enpoints
 
 app.get("/", (req, res) => {
-  res.render("index", { content });
+  res.status(200).render("index", { content });
 });
 
 app.get("/tasks",(req,res) =>{
-  res.render("index", { content });
+  res.status(200).render("index", { content });
 })
 
 app.post("/tasks",(req,res) =>{
@@ -36,7 +36,7 @@ app.post("/tasks",(req,res) =>{
   const {task} = req.body;
   const new_task = { id:lastId, status:'todo', task}
   content.push(new_task)
-  res.redirect('/')
+  res.status(200).redirect('/')
 })
 
 app.put("/tasks/:id",(req,res) =>{
@@ -44,14 +44,14 @@ app.put("/tasks/:id",(req,res) =>{
   const task = content.find(p => p.id == id);
   console.log(req.body)
   if (!task) {
-    res.redirect('/')
+    res.status(404).redirect('/')
       //res.status(404).json({mensaje: "No existe ninguna task con id "+ id})
   }else{
       const {change} = req.body;
       const index = content.indexOf(task);
       const newTask = content[index]= {...task,...req.body};
       //console.log(content)
-      res.redirect('/')
+      res.status(200).redirect('/')
   }
 })
 
@@ -61,10 +61,10 @@ app.delete("/tasks/:id",(req,res) =>{ console.log(req.params)
 
   if (!task) {
       //res.status(404).json({mensaje: "No existe ninguna task con id "+ id})
-      res.redirect('/')
+      res.status(404).redirect('/')
   }else{
       content = content.filter(x => x != task)
-      res.redirect('/')
+      res.status(200).redirect('/')
       //res.status(200).json({mensaje: "Task deleted"});
   }
 })
