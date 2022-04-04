@@ -2,25 +2,19 @@ const express = require("express");
 const app = express();
 const methodOverride = require('method-override');
 
-//app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
-//app.use(methodOverride());
-app.use(methodOverride('_method'));
-//const server = require("http").createServer(app);
-
 //const content = require("./content/tasks.json");
 let content = [];
-
 let lastId = 0;
 
 // Middlewares
-
-//app.use(express.static("public"));
+//app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'));
 
 // Templating engine setup
-
 app.set("view engine", "ejs");
 app.set('views', __dirname + '/views');
+
 // Enpoints
 
 app.get("/", (req, res) => {
@@ -42,20 +36,19 @@ app.post("/tasks",(req,res) =>{
 app.put("/tasks/:id",(req,res) =>{
   const id = parseInt(req.params.id,10);
   const task = content.find(p => p.id == id);
-  console.log(req.body)
+  //console.log(req.body)
   if (!task) {
     res.status(404).redirect('/')
       //res.status(404).json({mensaje: "No existe ninguna task con id "+ id})
   }else{
-      const {change} = req.body;
       const index = content.indexOf(task);
-      const newTask = content[index]= {...task,...req.body};
-      //console.log(content)
+      content[index] = {...task,...req.body};
       res.status(200).redirect('/')
   }
 })
 
-app.delete("/tasks/:id",(req,res) =>{ console.log(req.params)
+app.delete("/tasks/:id",(req,res) =>{ 
+  //console.log(req.params)
   const id = parseInt(req.params.id,10);
   const task = content.find(p => p.id == id);
 
@@ -69,8 +62,7 @@ app.delete("/tasks/:id",(req,res) =>{ console.log(req.params)
   }
 })
 
-// Starting server.
-//server.listen(2000, () => {
+// Starting server
 app.listen(2000, () => {
   console.log("Listening on port 2000...");
 });
